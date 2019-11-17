@@ -2,7 +2,7 @@ require "validate_me/version"
 require "validate_me/presence_validations"
 require "validate_me/varchar_limit_validations"
 require "validate_me/integer_limit_validations"
-# require "validate_me/uniqueness_validations"
+require "validate_me/uniqueness_validations"
 
 module ValidateMe
   SKIPPED_COLUMNS = ["id"].freeze
@@ -12,14 +12,12 @@ module ValidateMe
     base_class.columns.each do |column|
       next if ::ValidateMe::SKIPPED_COLUMNS.include? column.name
 
-      if base_class.const_defined? "SKIP_VALIDATE_ME_COLUMNS"
-        next if base_class::SKIP_VALIDATE_ME_COLUMNS.include? column.name
-      end
-
       ::ValidateMe::PresenceValidations.call     base_class: base_class, column: column
       ::ValidateMe::VarcharLimitValidations.call base_class: base_class, column: column
       ::ValidateMe::IntegerLimitValidations.call base_class: base_class, column: column
-      # ::ValidateMe::UniquenessValidations.call base_class: base_class, column: column
     end
+
+   indexes = ::ActiveRecord::Base.connection.indexes base_class.table_name
+   ::ValidateMe::UniquenessValidations.call base_class: base_class, indexes: indexes
   end
 end

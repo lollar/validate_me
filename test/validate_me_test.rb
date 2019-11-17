@@ -58,11 +58,24 @@ class ValidateMeTest < Minitest::Test
     @user.attributes = {
       first_name:   "Bob",
       last_name:    "Loblaw",
-      email:        "bobloblaw@bobloblawslawblog.com",
+      email:        "bobloblaw+unique@bobloblawslawblog.com",
       phone_number: 10,
     }
 
     assert @user.valid?
     assert @user.save
+  end
+
+  def test_uniqueness_validation_on_email
+    ::User.create first_name: "Bob", last_name: "Loblaw", email: "bobloblaw@bobloblawslawblog.com", phone_number: 10
+
+    @user.attributes = {
+      first_name:   "Bob",
+      last_name:    "Loblaw",
+      email:        "bobloblaw@bobloblawslawblog.com",
+      phone_number: 10,
+    }
+
+    refute @user.valid?
   end
 end
