@@ -1,8 +1,6 @@
 # ValidateMe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/validate_me`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+ValidateMe offers common sense validations for your ActiveRecord models. Since it relies on different ActiveRecord abstractions it is database agnostic.
 
 ## Installation
 
@@ -22,7 +20,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Usage is simple, just add `include ::ValidateMe` to whichever ActiveRecord models you would like to have the built-in validations that will match your database constraints.
+
+## What is validated?
+
+ValidateMe will validate null constraints, uniqueness (including scope), and limits. See the below examples for more details
+
+```ruby
+  create_table :users do |t|
+    t.string :first_name, limit: 10, null: false
+    t.string :last_name, null: false
+    t.string :email, null: false, index: { unique: true }
+    t.integer :phone_number, limit: 1
+  end
+```
+
+The following validations will be added to your model:
+
+```ruby
+validates :first_name, presence: true
+validates :last_name,  presence: true
+validates :email,      presence: true
+
+validates :first_name, length: { maximum: 10 }
+validates :phone_number, numericality: { greater_than: -128, less_than: 127 }, allow_nil: true
+
+validates :email, uniqueness: true
+```
 
 ## Development
 
@@ -32,7 +56,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/validate_me. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/lollar/validate_me. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +64,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the ValidateMe project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/validate_me/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the ValidateMe project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/lollar/validate_me/blob/master/CODE_OF_CONDUCT.md).
