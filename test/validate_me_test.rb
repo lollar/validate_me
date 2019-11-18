@@ -48,7 +48,7 @@ class ValidateMeTest < Minitest::Test
   end
 
   def test_lower_bound_length_validation_on_phone_number
-    @user.phone_number = -129
+    @user.phone_number = -128
 
     refute          @user.valid?
     assert_includes @user.errors.full_messages, "Phone number must be greater than -128"

@@ -51,7 +51,7 @@ validates :last_name,  presence: true
 validates :email,      presence: true
 
 validates :first_name, length: { maximum: 10 }
-validates :phone_number, numericality: { greater_than: -128, less_than: 127 }, allow_nil: true
+validates :phone_number, numericality: { greater_than: -127, less_than: 127 }, allow_nil: true
 
 validates :email, uniqueness: true
 ```
