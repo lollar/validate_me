@@ -22,6 +22,12 @@ Or install it yourself as:
 
 Usage is simple, just add `include ::ValidateMe` to whichever ActiveRecord models you would like to have the built-in validations that will match your database constraints.
 
+```ruby
+class User < ApplicationRecord
+  include ::ValidateMe
+end
+```
+
 ## What is validated?
 
 ValidateMe will validate null constraints, uniqueness (including scope), and limits. See the below examples for more details
