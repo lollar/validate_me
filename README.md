@@ -26,6 +26,8 @@ Usage is simple, just add `include ::ValidateMe` to whichever ActiveRecord model
 
 ValidateMe will validate null constraints, uniqueness (including scope), and limits. See the below examples for more details
 
+Example migration:
+
 ```ruby
   create_table :users do |t|
     t.string :first_name, limit: 10, null: false
