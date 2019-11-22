@@ -1,7 +1,6 @@
-require "test_helper"
+# frozen_string_literal: true
 
-# TODO Test:
-# Add uniqueness validation in separate file (these should all be broken into separate tests)
+require "test_helper"
 
 class ValidateMeTest < Minitest::Test
   def setup
@@ -60,6 +59,9 @@ class ValidateMeTest < Minitest::Test
       last_name:    "Loblaw",
       email:        "bobloblaw+unique@bobloblawslawblog.com",
       phone_number: 10,
+      unique_with:  "hola!",
+      this_column:  "adios!",
+      that_column:  "mucho gusto!"
     }
 
     assert @user.valid?
@@ -77,5 +79,43 @@ class ValidateMeTest < Minitest::Test
     }
 
     refute @user.valid?
+    assert_includes @user.errors.full_messages, "Email has already been taken"
+  end
+
+  def test_uniqueness_with_scope_on_multiple_columns
+    duplicate_attributes = {
+      first_name: "Don",
+      last_name: "Corleone",
+      email: "don@godfather.com",
+      phone_number: 9,
+      unique_with: "unique with",
+      this_column: "this_column",
+      that_column: "that column"
+    }
+
+    ::User.create duplicate_attributes
+
+    @user.attributes = duplicate_attributes
+
+    refute          @user.valid?
+    assert_includes @user.errors.full_messages, "Unique with has already been taken"
+  end
+
+  def test_uniqueness_is_valid_with_scope_on_multiple_columns
+    attributes = {
+      first_name: "Don",
+      last_name: "Corleone",
+      email: "don@godfather.com",
+      phone_number: 9,
+      unique_with: "unique with",
+      this_column: "this_column",
+      that_column: "that column"
+    }
+
+    ::User.create attributes
+
+    @user.attributes = attributes.merge this_column: "hola!", email: "don+unique@godfather.com"
+
+    assert @user.valid?
   end
 end

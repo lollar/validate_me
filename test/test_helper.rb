@@ -17,7 +17,12 @@ ActiveRecord::Schema.define do
     t.string :last_name, null: false
     t.string :email, null: false, index: { unique: true }
     t.integer :phone_number, limit: 1
+    t.string :unique_with
+    t.string :this_column
+    t.string :that_column
   end
+
+  add_index :users, [:unique_with, :this_column, :that_column], unique: true
 end
 
 class ApplicationRecord < ActiveRecord::Base
