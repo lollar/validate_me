@@ -1,18 +1,18 @@
 PATH
   remote: .
   specs:
-    validate_me (0.1.0)
+    validate_me (1.0.0)
       activerecord (>= 4.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.1.4)
-      activesupport (= 6.1.4)
-    activerecord (6.1.4)
-      activemodel (= 6.1.4)
-      activesupport (= 6.1.4)
-    activesupport (6.1.4)
+    activemodel (6.1.4.1)
+      activesupport (= 6.1.4.1)
+    activerecord (6.1.4.1)
+      activemodel (= 6.1.4.1)
+      activesupport (= 6.1.4.1)
+    activesupport (6.1.4.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
